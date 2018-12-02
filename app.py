@@ -13,6 +13,13 @@ X.append(1)
 Y = deque(maxlen=50)
 Y.append(1)
 
+errors = [line.strip() for line in open("errors.txt", 'r')]
+times = [line.strip() for line in open("times.txt", 'r')]
+iterations = [line.strip() for line in open("iterations.txt",'r')]
+iterations = [int(line) for line in iterations]
+errors = [float(line) for line in errors]
+times = [float(line) for line in times]
+
 app = dash.Dash(__name__)
 
 colors = {
@@ -29,17 +36,43 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
             }
         ),
    
-    html.Div(children='A live visualization of HCL Search String Categorization', style={
+    html.Div(children='', style={
         'textAlign': 'center',
         'color':colors['text']
     }),
 
-    dcc.Graph(
-        id='live-graph', 
-        animate=True,
-        style = {'backgroundColor':colors['background']}
+      dcc.Graph(
+        id='example-graph',
+        figure={
+            'data': [
+                {'x': iterations, 
+                'y': errors, 
+                'type': 'lines', 'name': 'SF'},
+                {'x': iterations, 'y': errors, 
+                
+                'type': 'lines', 'name': u'Montréal'},
+            ],
+            'layout': {
+                'title': 'A live visualization of HCL Search String Categorization'
+            }
+        }
     ),
-
+    dcc.Graph(
+        id='example-graph2',
+        figure={
+            'data': [
+                {'x': iterations, 
+                'y': times, 
+                'type': 'lines', 'name': 'SF'},
+                {'x': iterations, 'y': times, 
+                
+                'type': 'lines', 'name': u'Montréal'},
+            ],
+            'layout': {
+                'title': 'A live visualization of HCL Search String Categorization'
+            }
+        }
+    ),
     dcc.Interval(
         id='graph-update',
          interval=1*500
@@ -51,31 +84,31 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
     
 )
 
-@app.callback(Output('live-graph', 'figure'),
-              events=[Event('graph-update', 'interval')])
-def update_graph_scatter():
-    X.append(X[-1]+1)
-    Y.append(Y[-1]+Y[-1]*random.uniform(-0.1,0.1))
+# @app.callback(Output('live-graph', 'figure'),
+#               events=[Event('graph-update', 'interval')])
+# def update_graph_scatter():
+#     X.append(X[-1]+1)
+#     Y.append(Y[-1]+Y[-1]*random.uniform(-0.1,0.1))
   
-    data = plotly.graph_objs.Scatter(
-            x=list(X),
-            y=list(Y),
-            name='Scatter',
-            mode= 'lines+markers'
-            )
+#     data = plotly.graph_objs.Scatter(
+#             x=list(X),
+#             y=list(Y),
+#             name='Scatter',
+#             mode= 'lines+markers'
+#             )
 
-    return {
-        'data': [data],
-        'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)]),
-                                                yaxis=dict(range=[min(Y),max(Y)]),)
-            }
+#     return {
+#         'data': [data],
+#         'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)]),
+#                                                 yaxis=dict(range=[min(Y),max(Y)]),)
+#             }
 @app.callback(Output('output-state', 'children'),
               [Input('submit-button', 'n_clicks')],
               [State('input-1-state', 'value')])
 def update_output(n_clicks, input1):
     if input1 == "":
         return ""
-    return ' Your product description is "{}". It is classified as "{}"!!!'.format(input1, classify(input1))
+    return ' Your product description is \"{}. It is classified as {}!!!'.format(input1, classify(input1))
 
 
 if __name__ == '__main__':
