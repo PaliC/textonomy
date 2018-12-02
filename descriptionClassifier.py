@@ -36,9 +36,8 @@ def classify_func(svd_matrix, svd_object, word_to_index, Y, string):
         elif sim[0,0] == max_sim:
             max_sim_indexes.append(i2)
 
-    cats = set(list(map(lambda x: Y[x,0], max_sim_indexes)))
-
-    return cats
+    cats = list(set(map(lambda x: Y[x,0], max_sim_indexes)))
+    return (", ".join(cats))
     
 
 with open('Y.pkl', 'rb') as input:
