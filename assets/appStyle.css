@@ -1,9 +1,38 @@
 ﻿body {
-    background-color: rebeccapurple;
+    background-color: blue;
     margin: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif
 }
-h1 {
-    font-family: Verdana, Geneva, Tahoma, sans-serif
-    color: lavender;
+#submit-button {
+    position: absolute;
+    top: 127%;
+    margin: 0 auto;
+    color: black;
+    font-size: 24pt;
+    background-color: skyblue;
+    border-color: skyblue;
+}
+#input-1-state {
+    position: absolute;
+    top: 120%;
+    color: black;
+    font-size: 24pt;
+}
+
+#output-state {
+    position: absolute;
+    top: 135%;
+    color: white;
+    font-size: 20pt;
+    margin-bottom: 20%;
+    font-style: italic;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+#example-graph {
+    background-color: blue;
+}
+
+#example-graph2 {
+    background-color: blue;
 }
