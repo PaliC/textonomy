@@ -47,14 +47,13 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
             'data': [
                 {'x': iterations, 
                 'y': errors, 
-                'type': 'lines', 'name': 'SF'},
-                {'x': iterations, 'y': errors, 
-                
-                'type': 'lines', 'name': u'Montréal'},
+                'type': 'lines'},
             ],
-            'layout': {
-                'title': 'A live visualization of HCL Search String Categorization'
-            }
+            'layout': go.Layout(
+                xaxis={'title': 'Iterations'},
+                yaxis={'title': 'Percent Error'},
+                hovermode='closest'
+            )
         }
     ),
     dcc.Graph(
@@ -63,14 +62,13 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
             'data': [
                 {'x': iterations, 
                 'y': times, 
-                'type': 'lines', 'name': 'SF'},
-                {'x': iterations, 'y': times, 
-                
-                'type': 'lines', 'name': u'Montréal'},
+                'type': 'lines'},
             ],
-            'layout': {
-                'title': 'A live visualization of HCL Search String Categorization'
-            }
+            'layout': go.Layout(
+                xaxis={'title': 'Iterations'},
+                yaxis={'title': 'Runtime (Seconds)'},
+                hovermode='closest'
+            )
         }
     ),
     dcc.Interval(
