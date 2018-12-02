@@ -21,7 +21,7 @@ errors = [float(line) for line in errors]
 times = [float(line) for line in times]
 
 app = dash.Dash(__name__)
-
+server = app.server
 colors = {
     'background': '#ffffff',
     'text': '#111111'
