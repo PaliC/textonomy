@@ -8,6 +8,7 @@ import plotly.graph_objs as go
 from collections import deque
 from descriptionClassifier import classify
 
+
 X = deque(maxlen=50)
 X.append(1)
 Y = deque(maxlen=50)
