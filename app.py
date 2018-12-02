@@ -1,18 +1,19 @@
 import dash
-from dash.dependencies import Output, Event
+from dash.dependencies import Input, Output, Event, State
 import dash_core_components as dcc
 import dash_html_components as html
 import plotly
 import random
 import plotly.graph_objs as go
 from collections import deque
+from descriptionClassifier import classify
 
 X = deque(maxlen=50)
 X.append(1)
 Y = deque(maxlen=50)
 Y.append(1)
 
-app = dash.Dash(__name__)s
+app = dash.Dash(__name__)
 
 colors = {
     'background': '#ffffff',
@@ -43,7 +44,11 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
         id='graph-update',
          interval=1*500
     ),
+    dcc.Input(id='input-1-state', type='text', value=''),
+    html.Button(id='submit-button', n_clicks=0, children='Submit'),
+    html.Div(id='output-state')
     ]
+    
 )
 
 @app.callback(Output('live-graph', 'figure'),
@@ -64,7 +69,13 @@ def update_graph_scatter():
         'layout' : go.Layout(xaxis=dict(range=[min(X),max(X)]),
                                                 yaxis=dict(range=[min(Y),max(Y)]),)
             }
-
+@app.callback(Output('output-state', 'children'),
+              [Input('submit-button', 'n_clicks')],
+              [State('input-1-state', 'value')])
+def update_output(n_clicks, input1):
+    if input1 == "":
+        return ""
+    return ' Your product description is "{}". It is classified as "{}"!!!'.format(input1, classify(input1))
 
 
 if __name__ == '__main__':

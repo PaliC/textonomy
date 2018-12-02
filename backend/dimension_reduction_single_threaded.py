@@ -5,6 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 import functools
 import time
 from multiprocessing import Pool, cpu_count, Value
+import _pickle as pickle
 
 times = []
 error_list = []
@@ -115,14 +116,15 @@ if __name__ == "__main__":
     X, Y, word_to_index = make_vectors(xtrain, ytrain) 
 
     svd = TruncatedSVD(n_components=2000, n_iter=5, random_state=0)
-
-    Xred = svd.fit_transform(X)
-    Xtest, Ytest = make_test_vectors(xtest,ytest, word_to_index) 
-    Xtest_red = svd.transform(Xtest)
+    with open('../svd.pkl', 'wb') as output:
+        pickle.dump(svd, output,-1)
+    # Xred = svd.fit_transform(X)
+    # Xtest, Ytest = make_test_vectors(xtest,ytest, word_to_index) 
+    # Xtest_red = svd.transform(Xtest)
     
     
-    test(Xred, Y, Xtest_red, Ytest)
-    print(times)
-    print(error_list)
+    # test(Xred, Y, Xtest_red, Ytest)
+    # print(times)
+    # print(error_list)
 
 
