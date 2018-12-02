@@ -29,7 +29,7 @@ colors = {
 
 app.layout = html.Div(style = {'backgroundColor': colors['background']}, children=[
     html.H1(
-        children='String Categorization Error and Runtime Analysis',
+        children='Textonomy: String Categorization Error and Runtime Analysis',
         style={
             'textAlign':'center',
             'color': colors['text']
@@ -50,6 +50,7 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
                 'type': 'lines'},
             ],
             'layout': go.Layout(
+                title='Misclassification',
                 xaxis={'title': 'Iterations'},
                 yaxis={'title': 'Percent Error'},
                 hovermode='closest'
@@ -65,6 +66,7 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
                 'type': 'lines'},
             ],
             'layout': go.Layout(
+                title='Runtime Analysis',
                 xaxis={'title': 'Iterations'},
                 yaxis={'title': 'Runtime (Seconds)'},
                 hovermode='closest'
@@ -106,7 +108,7 @@ app.layout = html.Div(style = {'backgroundColor': colors['background']}, childre
 def update_output(n_clicks, input1):
     if input1 == "":
         return ""
-    return ' Your product description is \"{}. It is classified as {}!!!'.format(input1, classify(input1))
+    return ' Your product description is \"{}\". It is classified as {}!!!'.format(input1, classify(input1))
 
 
 if __name__ == '__main__':
