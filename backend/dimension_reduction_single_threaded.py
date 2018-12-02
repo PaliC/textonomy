@@ -97,7 +97,7 @@ def test(X, Y, Xtest, Ytest):
                 max_sim_indexes = [i2]
             elif sim[0,0] == max_sim:
                 max_sim_indexes.append(i2)
-        
+
         t()
         print((i1*X.shape[0]+i2)/(X.shape[0]*Xtest.shape[0])*100, "%")
         cats = set(list(map(lambda x: Y[x,0], max_sim_indexes)))
@@ -107,18 +107,47 @@ def test(X, Y, Xtest, Ytest):
         error_list.append(errors/(i1+1)*100)
     return 
 
-if __name__ == "__main__":
+def run_and_pickle():
     from sklearn.decomposition import TruncatedSVD
     
     global count
     count = Counter()
     xtrain, xtest, ytrain, ytest = process()
-    X, Y, word_to_index = make_vectors(xtrain, ytrain) 
+    X, Y, word_to_index = make_vectors(xtrain, ytrain)
+    
+    with open('../Y.pkl', 'wb') as output:
+        pickle.dump(Y, output, -1)
 
-    svd = TruncatedSVD(n_components=2000, n_iter=5, random_state=0)
+    with open('../word_to_index.pkl', 'wb') as output:
+        pickle.dump(word_to_index, output, -1)
+
+    svd = TruncatedSVD(n_components=1350, n_iter=5)
+    Xred = svd.fit_transform(X)
+    
     with open('../svd.pkl', 'wb') as output:
-        pickle.dump(svd, output,-1)
+        pickle.dump(svd, output, -1)
+
+    with open('../Xred.pkl', 'wb') as output:
+        pickle.dump(Xred, output, -1)
+
+    Xtest, Ytest = make_test_vectors(xtest,ytest, word_to_index) 
+    Xtest_red = svd.transform(Xtest)
+    
+    test(Xred, Y, Xtest_red, Ytest)
+    return 
+
+if __name__ == "__main__":
+    # from sklearn.decomposition import TruncatedSVD
+    
+    # global count
+    # count = Counter()
+    # xtrain, xtest, ytrain, ytest = process()
+    # X, Y, word_to_index = make_vectors(xtrain, ytrain) 
+
+    # svd = TruncatedSVD(n_components=2000, n_iter=5, random_state=0)
+    
     # Xred = svd.fit_transform(X)
+
     # Xtest, Ytest = make_test_vectors(xtest,ytest, word_to_index) 
     # Xtest_red = svd.transform(Xtest)
     
@@ -126,5 +155,6 @@ if __name__ == "__main__":
     # test(Xred, Y, Xtest_red, Ytest)
     # print(times)
     # print(error_list)
+    run_and_pickle()
 
 

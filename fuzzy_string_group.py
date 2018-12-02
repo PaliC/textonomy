@@ -1,4 +1,4 @@
-from Levenshtein import ratio
+# from Levenshtein import ratio
 from nltk.stem import PorterStemmer
 
 # Takes a bunch of strings and sorts them into groups of similar strings according to Levenshtein distance.
