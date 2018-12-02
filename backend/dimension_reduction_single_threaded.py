@@ -113,7 +113,7 @@ def run_and_pickle():
     global count
     count = Counter()
     xtrain, xtest, ytrain, ytest = process()
-    X, Y, word_to_index = make_vectors(xtrain, ytrain)
+    X, Y, word_to_index = make_vectors(np.concatenate((xtrain,xtest), axis = 0), np.concatenate((ytrain,ytest), axis = 0))
     
     with open('../Y.pkl', 'wb') as output:
         pickle.dump(Y, output, -1)
@@ -121,7 +121,7 @@ def run_and_pickle():
     with open('../word_to_index.pkl', 'wb') as output:
         pickle.dump(word_to_index, output, -1)
 
-    svd = TruncatedSVD(n_components=1350, n_iter=5)
+    svd = TruncatedSVD(n_components=1100, n_iter=5)
     Xred = svd.fit_transform(X)
     
     with open('../svd.pkl', 'wb') as output:
@@ -130,10 +130,6 @@ def run_and_pickle():
     with open('../Xred.pkl', 'wb') as output:
         pickle.dump(Xred, output, -1)
 
-    Xtest, Ytest = make_test_vectors(xtest,ytest, word_to_index) 
-    Xtest_red = svd.transform(Xtest)
-    
-    test(Xred, Y, Xtest_red, Ytest)
     return 
 
 if __name__ == "__main__":
